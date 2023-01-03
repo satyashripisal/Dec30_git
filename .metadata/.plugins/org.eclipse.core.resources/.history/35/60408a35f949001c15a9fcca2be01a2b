@@ -1,0 +1,39 @@
+package com.mavenProject1.Test;
+
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.MavenProject1.Utility.BaseClass;
+import com.MavenProject1.Utility.ExcelDataProvider;
+import com.MavenProject1.Utility.Library;
+import com.MavenProject1.pom.LoginPageObject;
+
+public class LoginTest extends BaseClass {
+	@Test
+	public void verify_Tc_001() throws InterruptedException {
+		
+		LoginPageObject login = PageFactory.initElements(driver, LoginPageObject.class);
+		
+		login.getTxt_Email().sendKeys("satyashripisal91@gmail.com");
+		login.getTxt_Password().sendKeys("7350346689");
+		login.getBtn_Login().click();
+		
+		login.getTxt_Email().sendKeys(excel.getStringData("Sheet1", 0, 1));
+				
+		Library.custom_SendKeys(login.getTxt_Email(), excel.getStringData("Sheet1", 0, 1), "Email");
+		
+		Library.custom_SendKeys(login.getTxt_Password(), excel.getStringData("Sheet1", 1, 1), "Password");
+		
+		Library.custom_Click(login.getBtn_Login(), "Login");
+		
+		Thread.sleep(5000);
+		
+       // Library.custom_AssertStringEquals("abc", "xyz");
+		String titlepage = driver.getTitle();
+		String expectedtitle = "google";
+		Assert.assertEquals(titlepage, expectedtitle);
+		
+
+}
+}
